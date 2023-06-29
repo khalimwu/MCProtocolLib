@@ -1,7 +1,7 @@
 package com.github.steveice10.mc.protocol.codec;
 
 import com.github.steveice10.mc.protocol.data.ProtocolState;
-import com.github.steveice10.mc.protocol.data.game.level.event.LevelEvent;
+import com.github.steveice10.mc.protocol.data.game.level.event.LevelEventType;
 import com.github.steveice10.mc.protocol.data.game.level.sound.BuiltinSound;
 import com.github.steveice10.mc.protocol.packet.handshake.serverbound.ClientIntentionPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundAwardStatsPacket;
@@ -185,11 +185,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MinecraftCodec {
-    private static final Int2ObjectMap<LevelEvent> LEVEL_EVENTS = new Int2ObjectOpenHashMap<>();
+    private static final Int2ObjectMap<LevelEventType> LEVEL_EVENTS = new Int2ObjectOpenHashMap<>();
     private static final Map<String, BuiltinSound> SOUND_NAMES = new HashMap<>();
 
     static {
-        for (LevelEvent levelEvent : LevelEvent.values()) {
+        for (LevelEventType levelEvent : LevelEventType.values()) {
             LEVEL_EVENTS.put(levelEvent.getId(), levelEvent);
         }
 
@@ -199,9 +199,9 @@ public class MinecraftCodec {
     }
 
     public static final PacketCodec CODEC = PacketCodec.builder()
-            .protocolVersion(762)
+            .protocolVersion(763)
             .helper(() -> new MinecraftCodecHelper(LEVEL_EVENTS, SOUND_NAMES))
-            .minecraftVersion("1.19.4")
+            .minecraftVersion("1.20")
             .state(ProtocolState.HANDSHAKE, PacketStateCodec.builder()
                     .registerServerboundPacket(0x00, ClientIntentionPacket.class, ClientIntentionPacket::new)
             )
